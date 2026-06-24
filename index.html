@@ -295,35 +295,29 @@ var _cache = {};
 var _open = false;
 var _day = DAYS[0].k;
 
-// Firebaseからデータ取得（1回取得方式）
-function fetchData(callback){
-  db.ref("/").once("value", function(snap){
-    var val = snap.val() || {};
-    // sltデータの配列変換
-    if(val.slt){
-      Object.keys(val.slt).forEach(function(k){
-        if(val.slt[k] && !Array.isArray(val.slt[k])){
-          val.slt[k] = Object.values(val.slt[k]);
-        }
-      });
-    }
-    _cache = val.slt || {};
-    _open = val.config && val.config.open === true;
-    if(val.config && val.config.day) _day = val.config.day;
-    if(callback) callback();
-  });
-}
+// リアルタイムリスナー：データが変わった瞬間に自動反映される
+db.ref("/").on("value", function(snap){
+  var val = snap.val() || {};
+  // sltデータの配列変換
+  if(val.slt){
+    Object.keys(val.slt).forEach(function(k){
+      if(val.slt[k] && !Array.isArray(val.slt[k])){
+        val.slt[k] = Object.values(val.slt[k]);
+      }
+    });
+  }
+  _cache = val.slt || {};
+  _open = val.config && val.config.open === true;
+  if(val.config && val.config.day) _day = val.config.day;
 
-// 30秒ごとに自動更新（常時接続ではなく都度取得）
-setInterval(function(){
-  fetchData(function(){
-    renderPub();
-  });
-}, 30000);
-
-// 初回取得
-fetchData(function(){
+  // 公開ビューは常に最新化
   renderPub();
+
+  // 管理画面が開いている場合はそちらも最新化
+  if(document.getElementById("adm").classList.contains("on")){
+    renderPubBox();
+    renderAdm();
+  }
 });
 
 function load(){return _cache;}
@@ -436,9 +430,6 @@ function renderPubBox(){
     btn.onclick=function(){
       setDay(d.k);
       admDay=d.k;
-      renderPubBox();
-      renderAdm();
-      renderPub();
     };
     el.appendChild(btn);
   });
@@ -456,8 +447,6 @@ function renderPubBox(){
 
 function toggleOpen(){
   setOpen(!getOpen());
-  renderPubBox();
-  renderPub();
 }
 
 // ========== 管理コマ ==========
@@ -596,7 +585,7 @@ function hideAdm(){document.getElementById("adm").classList.remove("on");renderP
 document.getElementById("adm-cls").onclick=hideAdm;
 
 // ========== 初期化 ==========
-// Firebase リスナーが自動的にrenderPub()を呼ぶ
+// Firebase リスナーが自動的に renderPub() / renderAdm() を呼ぶ（リアルタイム反映）
 </script>
 </body>
 </html>
