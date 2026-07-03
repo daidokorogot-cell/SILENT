@@ -188,7 +188,7 @@ body{font-family:'Noto Sans JP',sans-serif;background:#0a0a0a;color:#fff;min-hei
       <div class="tb s" id="btn-s">
         <div class="ic">&#x1F392;</div>
         <div class="nm">&#x5C0F;&#x30FB;&#x4E2D;&#x5B66;&#x751F;</div>
-        <div class="pr">&yen;600</div>
+        <div class="pr">&yen;500</div>
       </div>
     </div>
     <button class="pop-can" id="pop-can">&#x30AD;&#x30E3;&#x30F3;&#x30BB;&#x30EB;</button>
@@ -395,8 +395,8 @@ function renderSchedBox(){
     h+="</div>";
   });
   h+="<div class='price-box'>";
-  h+="<div class='price-item'><div class='price-lbl'>\u5c0f\u30fb\u4e2d\u5b66\u751f</div><div class='price-num'>&yen;600</div></div>";
-  h+="<div class='price-item'><div class='price-lbl'>\u9ad8\u6821\u751f\u30fb\u5927\u4eba</div><div class='price-num'>&yen;800</div></div>";
+  h+="<div class='price-item'><div class='price-lbl'>\u5c0f\u30fb\u4e2d\u5b66\u751f</div><div class='price-num'>&yen;500</div></div>";
+  h+="<div class='price-item'><div class='price-lbl'>\u5927\u4eba</div><div class='price-num'>&yen;800</div></div>";
   h+="</div>";
   h+="<div class='price-note'>\u5f53\u65e5\u5238\u306f 14:00 \u3088\u308a\u8ca9\u58f2</div>";
   box.innerHTML=h;
@@ -472,7 +472,7 @@ function renderAdm(){
     SLOTS.forEach(function(sl){
       var seats=data[d.k+"_"+sl.s]||[];
       totT+=seats.length; totF+=MAX-seats.length;
-      seats.forEach(function(s){totR+=s.t==="a"?800:600;});
+      seats.forEach(function(s){totR+=s.t==="a"?800:500;});
     });
   });
   document.getElementById("s-taken").textContent=totT;
@@ -498,7 +498,7 @@ function renderAdm(){
       btn.innerHTML="<span class='ic'>"+(isA?"&#x1F9D1;":"&#x1F392;")+"</span><span class='lb'>"+(isA?"\u5927\u4eba":"\u5c0f\u30fb\u4e2d")+"</span>";
       btn.onclick=(function(key,i,isAdult){return function(){
         undoKey=key; undoIdx=i;
-        var lbl=isAdult?"\u5927\u4eba\uff08\u00a5800\uff09":"\u5c0f\u30fb\u4e2d\u5b66\u751f\uff08\u00a5600\uff09";
+        var lbl=isAdult?"\u5927\u4eba\uff08\u00a5800\uff09":"\u5c0f\u30fb\u4e2d\u5b66\u751f\uff08\u00a5500\uff09";
         document.getElementById("undo-inf").innerHTML="#"+sl.n+" "+sl.s+"\u301c"+sl.e+"<br>"+lbl+"\u3092\u53d6\u308a\u6d88\u3057\u307e\u3059\u304b\uff1f";
         document.getElementById("upop").classList.add("on");
       };})(k,idx,isA);
@@ -517,7 +517,7 @@ function renderAdm(){
     }
     wrap.appendChild(sa);
     if(taken>0){
-      var rev=(adults*800)+(students*600);
+      var rev=(adults*800)+(students*500);
       var rd=document.createElement("div"); rd.className="adm-rev";
       var txt="";
       if(adults>0)txt+="<b>\u5927\u4eba "+adults+"\u540d</b>";
