@@ -40,8 +40,8 @@ body{font-family:'Noto Sans JP',sans-serif;background:#0a0a0a;color:#fff;min-hei
 .slot.x .sl-t .s{color:#551111}
 .sl-t .e{font-size:8px;color:#444;margin-top:2px}
 .sl-t .n{font-size:8px;color:#2a2a2a;margin-top:3px}
-.sl-seats{display:flex;gap:5px;padding:10px 12px;flex:1;flex-wrap:wrap;align-items:center}
-.seat{width:26px;height:26px;border-radius:3px;flex-shrink:0}
+.sl-seats{display:grid;grid-template-columns:repeat(8,1fr);gap:5px;padding:10px 12px;flex:1}
+.seat{width:100%;aspect-ratio:1;border-radius:3px}
 .seat.emp{background:#001a3a;border:1px solid #2288cc}
 .seat.tkn{background:#e0e0e0;border:1px solid #aaa}
 .sl-r{padding:10px 12px;text-align:right;flex-shrink:0;min-width:50px}
@@ -283,7 +283,7 @@ var SLOTS = [];
     }
   });
 })();
-var MAX=10, PIN="2008";
+var MAX=8, PIN="2008";
 var pendKey=null, undoKey=null, undoIdx=null;
 
 // Firebase初期化
